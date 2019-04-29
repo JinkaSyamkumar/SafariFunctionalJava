@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@FunctionalInterface
 interface StudentCriterion {
+//  boolean doStuff();
   boolean test(Student s);
   static StudentCriterion negate(StudentCriterion in) {
     return s -> !in.test(s);
@@ -65,6 +67,8 @@ public class School {
     System.out.println("------------------------------");
   }
 
+  // Higher order function
+  // aka "command" pattern in OO design pattern terminology
   public static List<Student> getStudentsByCriterion(List<Student> ls,
                                                StudentCriterion crit) {
     List<Student> out = new ArrayList<>();
