@@ -8,9 +8,10 @@ public class Student {
   private double gpa;
   private List<String> courses;
 
-  private Student(){}
+  private Student() {
+  }
 
-  public static Student of(String name, double gpa, String ... courses) {
+  public static Student of(String name, double gpa, String... courses) {
     Student self = new Student();
     self.name = name;
     self.gpa = gpa;
@@ -39,32 +40,65 @@ public class Student {
         '}';
   }
 
-  public static StudentCriterion getSmartStudentCriterion(double threshold){
-    return new SmartStudentCriterion(threshold);
+  public static StudentCriterion getSmartStudentCriterion(double threshold) {
+    return s -> s.getGpa() > threshold ; // expression lambda
   }
-
-  private static class SmartStudentCriterion implements StudentCriterion {
-    private double threshold;
-    public SmartStudentCriterion(double threshold) {
-      this.threshold = threshold;
-    }
-    @Override
-    public boolean test(Student s) {
-      return s.getGpa() > threshold;
-    }
-  }
-
-  private static final EnthuiasticStudentCriterion enthuiasticStudentCriterion =
-      new EnthuiasticStudentCriterion();
+//  public static StudentCriterion getSmartStudentCriterion(double threshold) {
+//    return (Student s) -> { return s.getGpa() > threshold; }; // block lambda
+//  }
+  // "closure"
+  // threshold must be final or "effectively final"
+//  public static StudentCriterion getSmartStudentCriterion(double threshold) {
+////    threshold = threshold + 0.1;
+//    return new StudentCriterion() {
+//      @Override
+//      public boolean test(Student s) {
+//        return s.getGpa() > threshold;
+//      }
+//    };
+//  }
 
   public static StudentCriterion getEnthusiasticCriterion() {
     return enthuiasticStudentCriterion;
   }
 
-  private static class EnthuiasticStudentCriterion implements StudentCriterion {
-    @Override
-    public boolean test(Student s) {
-      return s.getCourses().size() > 3;
-    }
-  }
+  private static final StudentCriterion enthuiasticStudentCriterion =
+      (Student s) -> { return s.getCourses().size() > 3; };
+
+//  private static final StudentCriterion enthuiasticStudentCriterion =
+//      /*new StudentCriterion() { */
+//       /* @Override
+//        public boolean test*/(Student s) -> {
+//          return s.getCourses().size() > 3;
+//        }
+//    /*  }*/;
+
+//  // anonymous inner class
+//  private static final StudentCriterion enthuiasticStudentCriterion =
+//      new StudentCriterion() {
+//        @Override
+//        public boolean test(Student s) {
+//          return s.getCourses().size() > 3;
+//        }
+//      };
+
+//  private static final StudentCriterion enthuiasticStudentCriterion =
+//      new /*EnthuiasticStudentCriterion();
+//
+//  private static class EnthuiasticStudentCriterion implements*/ StudentCriterion() {
+//    @Override
+//    public boolean test(Student s) {
+//      return s.getCourses().size() > 3;
+//    }
+//  };
+//
+//  private static final EnthuiasticStudentCriterion enthuiasticStudentCriterion =
+//      new EnthuiasticStudentCriterion();
+//
+//  private static class EnthuiasticStudentCriterion implements StudentCriterion {
+//    @Override
+//    public boolean test(Student s) {
+//      return s.getCourses().size() > 3;
+//    }
+//  }
 }

@@ -1,11 +1,16 @@
 package student;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 interface StudentCriterion {
   boolean test(Student s);
+}
+
+interface Silly {
+  boolean doStuff(Student s);
 }
 
 //class SmartStudentCriterion implements StudentCriterion {
@@ -92,5 +97,13 @@ public class School {
     System.out.println("Enthusiastic students:");
     showAll(getStudentsByCriterion(school,
         Student.getEnthusiasticCriterion()));
+
+//    Object obj = ((Silly)(s -> s.getGpa() > 3));
+//    System.out.println("Class of obj is " + obj.getClass().getName());
+//    Method [] methods = obj.getClass().getMethods();
+//    for (Method m : methods) {
+//      System.out.println("> " + m);
+//    }
+//        .doStuff(Student.of("Alice", 3.9, "Security")) ;
   }
 }
