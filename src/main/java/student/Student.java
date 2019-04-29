@@ -41,7 +41,8 @@ public class Student {
   }
 
   public static StudentCriterion getSmartStudentCriterion(double threshold) {
-    return s -> s.getGpa() > threshold ; // expression lambda
+//    return s -> s.getGpa() > threshold ; // expression lambda
+    return s -> s.gpa > threshold ; // expression lambda
   }
 //  public static StudentCriterion getSmartStudentCriterion(double threshold) {
 //    return (Student s) -> { return s.getGpa() > threshold; }; // block lambda

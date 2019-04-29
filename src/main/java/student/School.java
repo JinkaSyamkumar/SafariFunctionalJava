@@ -7,6 +7,29 @@ import java.util.List;
 
 interface StudentCriterion {
   boolean test(Student s);
+  static StudentCriterion negate(StudentCriterion in) {
+    return s -> !in.test(s);
+  }
+
+  static StudentCriterion and(StudentCriterion one, StudentCriterion two) {
+    return s -> one.test(s) && two.test(s);
+  }
+
+  static StudentCriterion or(StudentCriterion one, StudentCriterion two) {
+    return s -> one.test(s) || two.test(s);
+  }
+
+  default StudentCriterion negate() {
+    return s -> !this.test(s);
+  }
+
+  default StudentCriterion and(StudentCriterion two) {
+    return s -> this.test(s) && two.test(s);
+  }
+
+  default StudentCriterion or(StudentCriterion two) {
+    return s -> this.test(s) || two.test(s);
+  }
 }
 
 interface Silly {
@@ -33,6 +56,8 @@ interface Silly {
 //}
 
 public class School {
+
+
   public static void showAll(List<Student> ls) {
     for (Student s : ls) {
       System.out.println("> " + s);
@@ -105,5 +130,26 @@ public class School {
 //      System.out.println("> " + m);
 //    }
 //        .doStuff(Student.of("Alice", 3.9, "Security")) ;
+
+    System.out.println("Not Smart students:");
+    showAll(getStudentsByCriterion(school,
+        StudentCriterion.negate(Student.getSmartStudentCriterion(3))));
+    System.out.println("Not Fairly smart students:");
+    showAll(getStudentsByCriterion(school,
+        StudentCriterion.negate(Student.getSmartStudentCriterion(2.5))));
+    System.out.println("Not Enthusiastic students:");
+    showAll(getStudentsByCriterion(school,
+        StudentCriterion.negate(Student.getEnthusiasticCriterion())));
+
+    System.out.println("Smart but not Enthusiastic students:");
+    showAll(getStudentsByCriterion(school,
+        StudentCriterion.and(Student.getSmartStudentCriterion(3),
+            StudentCriterion.negate(Student.getEnthusiasticCriterion()))));
+
+    StudentCriterion smart = Student.getSmartStudentCriterion(3);
+    StudentCriterion enthusiastic = Student.getEnthusiasticCriterion();
+    System.out.println("Smart but not Enthusiastic students:");
+    showAll(getStudentsByCriterion(school, smart.and(enthusiastic.negate())));
+
   }
 }
