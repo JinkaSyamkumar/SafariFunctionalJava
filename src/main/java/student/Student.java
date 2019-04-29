@@ -38,4 +38,33 @@ public class Student {
         ", courses=" + courses +
         '}';
   }
+
+  public static StudentCriterion getSmartStudentCriterion(double threshold){
+    return new SmartStudentCriterion(threshold);
+  }
+
+  private static class SmartStudentCriterion implements StudentCriterion {
+    private double threshold;
+    public SmartStudentCriterion(double threshold) {
+      this.threshold = threshold;
+    }
+    @Override
+    public boolean test(Student s) {
+      return s.getGpa() > threshold;
+    }
+  }
+
+  private static final EnthuiasticStudentCriterion enthuiasticStudentCriterion =
+      new EnthuiasticStudentCriterion();
+
+  public static StudentCriterion getEnthusiasticCriterion() {
+    return enthuiasticStudentCriterion;
+  }
+
+  private static class EnthuiasticStudentCriterion implements StudentCriterion {
+    @Override
+    public boolean test(Student s) {
+      return s.getCourses().size() > 3;
+    }
+  }
 }
