@@ -7,6 +7,9 @@ public class Average {
   private final long count;
   private final double sum;
 
+  {
+    System.out.println("Creating immutable Average");
+  }
   public Average() {
     this(0, 0);
   }
